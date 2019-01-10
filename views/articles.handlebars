@@ -1,0 +1,27 @@
+
+{{> navbar2}} 
+<div class='container grid-lg'>
+{{#if article}} 
+{{#each article}}
+<div class='card'>
+  <div class='card-header'>
+    <div class='card-title h5'>
+      {{title}}
+    </div>
+  </div>
+  <div class='card-body'>
+    <a href='{{link}}' target='_blank'>{{link}}</a>
+  </div>
+  <div class='card-footer'>
+        <a href='/articles/{{id}}' class='btn'>Notes</a>
+  </div>
+</div>
+{{/each}} 
+{{else}}
+<h3>Not articles displaying?</h3>
+<a href='/scrape' class='btn'>
+  Click Here
+</a>
+{{/if}}
+</div>
+

@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-//create and array, then an object with the information and push thtat object to the array. 
+// scraping the news website to grab information wanted. 
 app.get('/scrape', (req, res) => {
     axios.get('http://www.echojs.com/').then(function (response) {
 
@@ -56,19 +56,44 @@ app.get('/scrape', (req, res) => {
                     console.log(`Error: ${err}`)
                 })
         })
-        console.log('done!')
+        res.redirect("/articles")
     });
 });
 
-//mLab on my computer
+//getting the articles scraped
 app.get('/articles', (req, res) => {
     db.Article.find({})
         .limit(5)
         .then(article => {
-            res.render('index', { article });
+            res.render('articles', {article}) 
+            // res.json(article);
+        });
+});
+
+// finding an specific article by id
+app.get('/articles/:id', (req, res) => {
+    db.Article.findOne({
+        _id: req.params.id
+    }).populate('note')
+        .then(article => {
+            //will be res.render('notes', {article}) later
+            res.json(article)
+        });
+});
+
+app.post('articles/:id', (req, res) => {
+    db.Note.create({
+        noteTitle: req.body.noteTitle,
+        noteBody: req.body.noteBody
+    })
+        .then(note => {
+            db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { note: note._id } }) //created an array for multiple notes, therefore the correct command is push instead of set.
+                .then((() => { console.log("Done!") }) //res.redirect(`/articles/${req.body.id}`)
+                    .catch(err => { console.log(`Error: ${err}`) }));
         });
 });
 
 app.listen(PORT, () => {
     console.log(`Listening to PORT: ${PORT}`);
 });
+

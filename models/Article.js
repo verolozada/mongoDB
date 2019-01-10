@@ -4,18 +4,18 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ArticleSchema = new Schema({
-    title:{
+    title: {
         type: String,
         required: true
     },
     link: {
-        type: String, 
+        type: String,
         required: true
     },
-    note: {
+    note: [{
         type: Schema.Types.ObjectId,
         ref: "Note"
-    }
+    }]
 });
 
 //Create model 
