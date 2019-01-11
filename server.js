@@ -82,13 +82,10 @@ app.get('/articles/:id', (req, res) => {
 });
 
 app.post('articles/:id', (req, res) => {
-    db.Note.create({
-        noteTitle: req.body.noteTitle,
-        noteBody: req.body.noteBody
-    })
+    db.Note.create(req.body)
         .then(note => {
-            db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { note: note._id } }) //created an array for multiple notes, therefore the correct command is push instead of set.
-                .then((() => { res.redirect(`/articles/${req.body.id}`) })
+            db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { note: note._id } }, { new: true }) //created an array for multiple notes, therefore the correct command is push instead of set.
+                .then((() => { res.redirect('/articles') })
                     .catch(err => { console.log(`Error: ${err}`) }));
         });
 });

@@ -1,19 +1,27 @@
-$('.submitNote').on('click', event => {
-    event.preventDefault();
+$(document).ready(function () {
+    $('.submitNote').on('click', event => {
+        event.preventDefault();
 
-    const newNote = {
-        noteTitle: $('#note-title').val().trim(),
-        noteBody: $('#note-body').val().trim(),
-        id: $('.submitNote').attr('id')
-    }
+        const newNote = {
+            noteTitle: $('#note-title').val().trim(),
+            noteBody: $('#note-body').val().trim(),
+        }
 
-    console.log(newNote);
-    // $.ajax(`/articles/${newNote.id}`, {
-    //     type: 'POST',
-    //     data: newNote
-    // }).then(response => {
-    //     location.load(true);
-    // }).catch(err => {console.log(err)});
+        const id = $('.submitNote').attr('data-id');
 
+        // console.log(newNote);
+        // console.log(id);
 
+        $.ajax({
+            method: 'POST',
+            url: `/articles/${id}`,
+            data: newNote
+        }).then(function (data) {
+            console.log(data)
+            location.reload();
+
+            $('#note-title').val("")
+            $('#note-body').val("")
+        });
+    });
 });
