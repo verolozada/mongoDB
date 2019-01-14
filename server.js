@@ -75,18 +75,26 @@ app.get('/articles', (req, res) => {
 app.get('/articles/:id', (req, res) => {
     db.Article.findOne({
         _id: req.params.id
-    }).populate('notes')
+    }).populate('note')
         .then(article => {
-            res.render('notes', { article })
+            // res.render('articles', { article })
+            res.json(article);
         });
 });
 
 app.post('articles/:id', (req, res) => {
     db.Note.create(req.body)
         .then(note => {
-            db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { note: note._id } }, { new: true }) //created an array for multiple notes, therefore the correct command is push instead of set.
-                .then((() => { res.redirect('/articles') })
-                    .catch(err => { console.log(`Error: ${err}`) }));
+            const id = { _id: req.params.id };
+            return db.Article.findOneAndUpdate(
+                id,
+                { $push: { note: note._id } },
+                { new: true }
+            )
+        }).then(() => {
+            res.redirect('/articles');
+        }).catch(err => {
+            console.log(`Error: ${err}`);
         });
 });
 
