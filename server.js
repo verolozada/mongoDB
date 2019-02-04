@@ -1,104 +1,34 @@
-const express = require('express');
-const exphbs = require('express-handlebars');
-const mongoose = require('mongoose');
-const axios = require('axios');
-const cheerio = require('cheerio');
-
-//require the models for the notes and articles to render
-const db = require('./models');
-
-const PORT = process.env.PORT || 3000;
-
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/mongoHeadlines';
-
-mongoose.connect(MONGODB_URI);
+const express = require("express");
+const bodyParser = require("body-parser");
+const exphbs = require("express-handlebars");
+const mongoose = require("mongoose");
 
 const app = express();
 
-// Middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-app.use(express.static('public'));
-
-// Handlebars
-app.engine(
-    'handlebars',
-    exphbs({
-        defaultLayout: 'main'
-    })
-);
-app.set('view engine', 'handlebars');
-
-app.get('/', (req, res) => {
-    res.render('index');
-});
-
-// scraping the news website to grab information wanted. 
-app.get('/scrape', (req, res) => {
-    axios.get('http://www.echojs.com/').then(function (response) {
-
-        const $ = cheerio.load(response.data);
+// Set port 8080 default for Heroku deployment 
+const PORT = process.env.PORT || 8080
 
 
-        $('article h2').each(function (i, element) {
+// Set public as a static folder 
+app.use(express.static("public"));
 
-            const results = {
-                title: $(element).children('a').text(),
-                link: $(element).find('a').attr('href')
-            };
+// use bodyParser
+app.use(bodyParser.urlencoded({ extended: true }));
 
+///Setting express handlebars 
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
-            db.Article.create(results)
-                .then(article => {
-                    console.log(article)
-                })
-                .catch(err => {
-                    console.log(`Error: ${err}`)
-                })
-        })
-        res.redirect("/articles")
-    });
-});
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
-//getting the articles scraped
-app.get('/articles', (req, res) => {
-    db.Article.find({})
-        .limit(5)
-        .then(article => {
-            res.render('articles', { article })
-            // res.json(article);
-        });
-});
+// mLab , connect mongoose to mongo 
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 
-// finding an specific article by id
-app.get('/articles/:id', (req, res) => {
-    db.Article.findOne({
-        _id: req.params.id
-    }).populate('note')
-        .then(article => {
-            // res.render('articles', { article })
-            res.json(article);
-        });
-});
+require("./controllers/ArticleController")(app);
+require("./controllers/CommentController")(app);
 
-app.post('articles/:id', (req, res) => {
-    db.Note.create(req.body)
-        .then(note => {
-            const id = { _id: req.params.id };
-            return db.Article.findOneAndUpdate(
-                id,
-                { $push: { note: note._id } },
-                { new: true }
-            )
-        }).then(() => {
-            res.redirect('/articles');
-        }).catch(err => {
-            console.log(`Error: ${err}`);
-        });
-});
 
-app.listen(PORT, () => {
-    console.log(`Listening to PORT: ${PORT}`);
-});
-
+app.listen(PORT, function() {
+    console.log(`App running on http://localhost:${PORT}`);
+  });

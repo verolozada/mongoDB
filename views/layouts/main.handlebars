@@ -1,26 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Note That</title>
-    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
-    <link rel="stylesheet" href="/assets/css/style.css" type="text/css" /> 
-    {{!-- Favicon --}}
-    <link rel="shortcut icon" type="assets/image/png" href="/assets/images/news.png"> 
-    {{!-- Google Fonts --}}
-    <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scrape-That-Article</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+        crossorigin="anonymous">
+
+    <!-- Material Icon CDN -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/style.css"> {{!-- Google Fonts --}}
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans|Staatliches" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="/images/favicon.ico">
 </head>
 
 <body>
-    {{{ body }}}
-</body>
 
-{{!-- jQuery CDN --}}
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="/assets/js/app.js"></script>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="/" class="brand-logo" style="margin-left: 100px; font-family: 'Staatliches', cursive;">Reuters Tech Scraper</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down" style="margin-right: 50px;">
+                <li>
+                    <a href="/" class="scrape-btn btn" style= "color: black;">Scrape Articles</a>
+                </li>
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                <li>
+                    <a href="/saved">Saved Articles</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    {{{body}}}
+</body>
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="/js/app.js"></script>
 
 </html>

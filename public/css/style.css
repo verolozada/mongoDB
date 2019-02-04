@@ -1,0 +1,50 @@
+* {
+  font-family: 'PT Sans', sans-serif;
+}
+
+body {
+  background: url("https://media.istockphoto.com/photos/programming-code-abstract-technology-background-of-software-deve-picture-id629285904?k=6&m=629285904&s=612x612&w=0&h=GbdupQECY8IAzSkFu5fZuXV7angui0S3j64KRS2Ed6M=") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+/* nav */
+.nav-wrapper {
+  background-color: purple;
+}
+
+/* buttons */
+.scrape-btn{
+  background-color: white;
+}
+nav ul li .scrape-btn:hover {
+  background-color: #ef9a9a;
+}
+.article-btn,
+.save-btn,
+.article-link-btn,
+.comment-btn,
+.submit-btn {
+  background-color: #ef9a9a ;
+}
+
+.delete-btn{
+  background-color: rgb(156, 8, 8);
+}
+
+.time {
+  background-color: #ffebee;
+}
+
+.modal-close {
+  background-color: rgb(156, 8, 8);
+}
+
+/* cards */
+.card {
+  width: 70vw;
+  margin-left: auto;
+  margin-right: auto;
+}
