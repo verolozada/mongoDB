@@ -19,10 +19,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
+// If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
-// mLab , connect mongoose to mongo 
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+mongoose.connect(MONGODB_URI);
+
 
 
 require("./controllers/ArticleController")(app);
