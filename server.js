@@ -22,7 +22,9 @@ app.set("view engine", "handlebars");
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
-mongoose.connect(MONGODB_URI);
+mongoose.connect(MONGODB_URI), {
+  useNewUrlParser: true
+};
 
 
 
@@ -30,6 +32,6 @@ require("./controllers/ArticleController")(app);
 require("./controllers/CommentController")(app);
 
 
-app.listen(PORT, function() {
-    console.log(`App running on http://localhost:${PORT}`);
-  });
+app.listen(PORT, function () {
+  console.log(`App running on http://localhost:${PORT}`);
+});
